@@ -4,6 +4,7 @@ import commonjs from 'rollup-plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
 import copy from "rollup-copy-plugin";
 import htmlTemplate from 'rollup-plugin-generate-html-template';
+import scss from 'rollup-plugin-scss'
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -31,13 +32,12 @@ export default {
 
       // enable run-time checks when not in production
       dev: !production,
-      // we'll extract any component CSS out into
-      // a separate file — better for performance
-      css: css => {
-        css.write('public/bundle.css');
-      }
+      emitCss: true
     }),
 
+    scss({
+      output: 'public/bundle.css'
+    }),
     // If you have external dependencies installed from
     // npm, you'll most likely need these plugins. In
     // some cases you'll need additional configuration —
