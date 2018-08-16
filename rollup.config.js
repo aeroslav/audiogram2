@@ -4,7 +4,7 @@ import commonjs from 'rollup-plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
 import copy from "rollup-copy-plugin";
 import htmlTemplate from 'rollup-plugin-generate-html-template';
-import scss from 'rollup-plugin-scss'
+import scss from 'rollup-plugin-scss';
 
 const production = !process.env.ROLLUP_WATCH;
 
