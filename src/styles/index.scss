@@ -1,11 +1,22 @@
 @import "node_modules/spectre.css/src/spectre";
 @import "./icons";
 
+$f-caption: 'Oswald', sans-serif; //only regular
+$f-regular: 'Montserrat', sans-serif; //can be regular, regular italic, bold
+
+
 body {
     background-color: #fff;
-    font-family: 'Montserrat', sans-serif; //regular, regular italic, bold
+    font-family: $f-regular;
 }
 
-.logo, h1, h2, h3, h4, h5, h6 {
-    font-family: 'Oswald', sans-serif; //regular
+h1, h2, h3, h4, h5, h6 {
+    font-family: $f-caption;
 }
+
+.logo {
+    font-family: $f-caption;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    color: $primary-color;
+  }

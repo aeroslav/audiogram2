@@ -1,10 +1,28 @@
-<header>
-  <h1>Аудиограмма</h1>
-  <p>{$sets}</p>
-</header>
-
-<style>
-</style>
+<div class="container grid-xl">
+  
+  <main>
+    <Header />
+    <Controls />
+    <StepsTable />
+    <Help />
+    <Export />
+  </main>
+</div>
 
 <script>
+  import Header from './Header/Header.html';
+  import Controls from './Controls/Controls.html';
+  import StepsTable from './StepsTable/StepsTable.html';
+  import Help from './Help/Help.html';
+  import Export from './Export/Export.html';
+
+  export default {
+    components: {
+      Header,
+      Controls,
+      StepsTable,
+      Help,
+      Export
+    }
+  }
 </script>

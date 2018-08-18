@@ -2,7 +2,7 @@ import svelte from 'rollup-plugin-svelte';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
-import copy from "rollup-copy-plugin";
+import assets from 'rollup-plugin-copy-assets';
 import htmlTemplate from 'rollup-plugin-generate-html-template';
 import scss from 'rollup-plugin-scss';
 
@@ -17,22 +17,22 @@ export default {
     file: 'public/bundle.js'
   },
   plugins: [
-    copy({
-      'src/index.html': 'public/index.html',
-      'src/frequencies-sets.json': 'public/frequencies-sets.json'
+    assets({
+      assets: [
+        './src/fonts',
+        'src/index.html',
+        'src/frequencies-sets.json'
+      ]
     }),
     htmlTemplate({
       template: 'src/index.html',
       target: 'index.html',
     }),
     svelte({
-      // opt in to v3 behaviour today
       skipIntroByDefault: true,
       nestedTransitions: true,
-
-      // enable run-time checks when not in production
       dev: !production,
-      emitCss: true
+      emitCss: false
     }),
 
     scss({
