@@ -17,6 +17,13 @@
   import Export from './Export/Export.html';
 
   export default {
+    oncreate() {
+      this.store
+        .loadSets()
+        .then(() => {
+          this.store.chooseSet(0);
+        });
+    },
     components: {
       Header,
       Controls,

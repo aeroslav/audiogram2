@@ -1,1 +1,17 @@
-<div>steps table</div>
+<div class="steps columns">
+  {#each $steps as step, stepIndex}
+    <Step step={step} {stepIndex}/>
+  {:else}
+  <span>No data</span>
+  {/each}
+</div>
+
+<script>
+  import Step from './Step.html';
+
+  export default {
+    components: {
+      Step
+    }
+  }
+</script>

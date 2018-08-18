@@ -4,7 +4,8 @@ import commonjs from 'rollup-plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
 import assets from 'rollup-plugin-copy-assets';
 import htmlTemplate from 'rollup-plugin-generate-html-template';
-import scss from 'rollup-plugin-scss';
+import postcss from 'rollup-plugin-postcss';
+import autoprefixer from 'autoprefixer';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -32,11 +33,16 @@ export default {
       skipIntroByDefault: true,
       nestedTransitions: true,
       dev: !production,
-      emitCss: false
+      emitCss: false,
+      css: function (css) {
+        css.write('public/styles.css', !production);
+      }
     }),
-
-    scss({
-      output: 'public/bundle.css'
+    postcss({
+      extract: 'public/base.css',
+      plugins: [
+        autoprefixer
+      ]
     }),
     // If you have external dependencies installed from
     // npm, you'll most likely need these plugins. In

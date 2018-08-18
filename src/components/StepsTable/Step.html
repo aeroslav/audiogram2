@@ -1,0 +1,31 @@
+<div class="step-table-row column col-12 py-1">
+  <div class="container">
+    <div class="columns">
+      <div class="column col-2">
+          <button
+            class="btn btn-action btn-link"
+            on:click="$playFrequency(stepIndex)"
+          >
+            <i class="icon icon-play_circle_outline"></i>
+          </button>
+          <div class="frequency d-inline-block text-bold">{step} Hz</div>
+      </div>
+      <div class="column col-9">
+          <input class="slider mt-1" type="range" min="1" max="100" step="1" value="10">
+      </div>
+      <div class="column col-1 text-right">1</div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .step-table-row {
+    /* border-bottom: 1px solid var(--secondary-color); */
+  }
+  .step-table-row:hover {
+    background-color: var(--bg-color);
+  }
+  .frequency {
+    margin-left: 1rem;
+  }
+</style>
