@@ -1,9 +1,15 @@
 <div class="steps columns">
-  {#each $steps as step, stepIndex}
-    <Step step={step} {stepIndex}/>
-  {:else}
-  <span>No data</span>
-  {/each}
+  {#if $results[$currentSetIndex]}
+    {#each $steps as step, stepIndex}
+      {#if $isPlaying && $currentStepIndex === stepIndex}
+        <Step step={step} {stepIndex} isPlaying />
+      {:else}
+        <Step step={step} {stepIndex} />
+      {/if}
+    {:else}
+    <span>No data</span>
+    {/each}
+  {/if}
 </div>
 
 <script>

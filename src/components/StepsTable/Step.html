@@ -6,24 +6,34 @@
             class="btn btn-action btn-link"
             on:click="$playFrequency(stepIndex)"
           >
-            <i class="icon icon-play_circle_outline"></i>
+            {#if isPlaying}
+              <i class="icon icon-pause_circle_outline"></i>
+            {:else}
+              <i class="icon icon-play_circle_outline"></i>
+            {/if}
           </button>
           <div class="frequency d-inline-block text-bold">{step} Hz</div>
       </div>
       <div class="column col-9">
-          <input class="slider mt-1" type="range" min="1" max="100" step="1" value="10">
+          <input
+            class="slider mt-1"
+            type="range"
+            min="1" max="100" step="1" value="{$results[$currentSetIndex][stepIndex]}"
+            on:input="$setVolume(this.value)"
+            disabled={!isPlaying}
+          >
       </div>
-      <div class="column col-1 text-right">1</div>
+      <div class="column col-1 text-right">{$results[$currentSetIndex][stepIndex]}</div>
     </div>
   </div>
 </div>
 
 <style>
-  .step-table-row {
-    /* border-bottom: 1px solid var(--secondary-color); */
-  }
   .step-table-row:hover {
     background-color: var(--bg-color);
+  }
+  .step-table-row button {
+    font-size: 1rem;
   }
   .frequency {
     margin-left: 1rem;

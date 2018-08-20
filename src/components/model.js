@@ -2,12 +2,13 @@ import isNumber from 'lodash/isNumber';
 import { Store } from "svelte/store.js";
 
 const FREQUENCIES_SETS_URL = 'frequencies-sets.json';
+const DEFAULT_VOLUME = 10;
 const INITITAL_STATE = {
   loadedSets: [],
   currentSetIndex: null,
   currentStepIndex: null,
   isPlaying: false,
-  volume: 10
+  results: {}
 };
 
 export class Model extends Store {
@@ -60,9 +61,19 @@ export class Model extends Store {
   }
 
   chooseSet(index) {
-    const chosenStep = this.get().loadedSets[index];
+    const { loadedSets, results } = this.get();
+    const chosenStep = loadedSets[index];
     if (chosenStep && chosenStep.frequencies) {
-      this.set({ currentSetIndex: index });
+      this.set({
+        currentSetIndex: index
+      });
+      if (!results[index]) {
+        this.set({
+          results: {
+            [index]: new Array(chosenStep.frequencies.length).fill(DEFAULT_VOLUME)
+          }
+        });
+      }
     }
   }
 
@@ -73,5 +84,20 @@ export class Model extends Store {
       ? !isPlaying
       : true);
     this.set({ isPlaying: isNowPlaying });
-  };
+  }
+
+  setVolume(vol) {
+    const { results, currentSetIndex, currentStepIndex } = this.get();
+    const volumes = results[currentSetIndex];
+    const updatedVolumes = [].concat(volumes);
+
+    vol = +vol;
+    updatedVolumes.splice(currentStepIndex, 1, vol);
+
+    isNumber(vol) && this.set({
+      results: {
+        [currentSetIndex]: updatedVolumes
+      }
+    });
+  }
 }
