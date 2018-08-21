@@ -5,8 +5,8 @@ const FREQUENCIES_SETS_URL = 'frequencies-sets.json';
 const DEFAULT_VOLUME = 10;
 const INITITAL_STATE = {
   loadedSets: [],
-  currentSetIndex: null,
-  currentStepIndex: null,
+  setI: null,
+  stepI: null,
   isPlaying: false,
   results: {}
 };
@@ -20,29 +20,41 @@ export class Model extends Store {
 
     this.compute(
       'steps',
-      ['loadedSets', 'currentSetIndex'],
-      (loadedSets, currentSetIndex) => (
+      ['loadedSets', 'setI'],
+      (loadedSets, setI) => (
         (
-          isNumber(currentSetIndex) && loadedSets && 
-          loadedSets[currentSetIndex] &&
-          loadedSets[currentSetIndex].frequencies
+          isNumber(setI) && loadedSets && 
+          loadedSets[setI] &&
+          loadedSets[setI].frequencies
         ) || ([])
       )
     );
 
     this.compute(
       'hz',
-      ['loadedSets', 'currentSetIndex', 'currentStepIndex'],
-      (loadedSets, currentSetIndex, currentStepIndex) => {
-        const frequencies = isNumber(currentSetIndex) &&
+      ['loadedSets', 'setI', 'stepI'],
+      (loadedSets, setI, stepI) => {
+        const frequencies = isNumber(setI) &&
           loadedSets && 
-          loadedSets[currentSetIndex] &&
-          loadedSets[currentSetIndex].frequencies;
+          loadedSets[setI] &&
+          loadedSets[setI].frequencies;
         return (
           frequencies &&
-          isNumber(currentStepIndex) &&
-          frequencies[currentStepIndex]
+          isNumber(stepI) &&
+          frequencies[stepI]
         );
+      }
+    );
+
+    this.compute(
+      'volume',
+      ['results', 'setI', 'stepI'],
+      (results, setI, stepI) => {
+        return (
+          results[setI] &&
+          results[setI][stepI]
+          || 0
+        ); 
       }
     );
   }
@@ -65,7 +77,7 @@ export class Model extends Store {
     const chosenStep = loadedSets[index];
     if (chosenStep && chosenStep.frequencies) {
       this.set({
-        currentSetIndex: index
+        setI: index
       });
       if (!results[index]) {
         this.set({
@@ -78,25 +90,27 @@ export class Model extends Store {
   }
 
   playFrequency(stepIndex) {
-    const {currentStepIndex, isPlaying} = this.get();
-    this.set({currentStepIndex: stepIndex});
-    const isNowPlaying = (currentStepIndex === stepIndex
+    const {stepI, isPlaying} = this.get();
+    const isNowPlaying = (stepI === stepIndex
       ? !isPlaying
       : true);
-    this.set({ isPlaying: isNowPlaying });
+    this.set({
+      isPlaying: isNowPlaying,
+      stepI: stepIndex
+    });
   }
 
   setVolume(vol) {
-    const { results, currentSetIndex, currentStepIndex } = this.get();
-    const volumes = results[currentSetIndex];
+    const { results, setI, stepI } = this.get();
+    const volumes = results[setI];
     const updatedVolumes = [].concat(volumes);
 
     vol = +vol;
-    updatedVolumes.splice(currentStepIndex, 1, vol);
+    updatedVolumes.splice(stepI, 1, vol);
 
     isNumber(vol) && this.set({
       results: {
-        [currentSetIndex]: updatedVolumes
+        [setI]: updatedVolumes
       }
     });
   }

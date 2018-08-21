@@ -13,22 +13,25 @@ const app = new App({
 
 const soundController = new SoundController();
 
-model.on('state', ({ current }) => {
+model.on('state', ({ changed, current }) => {
   const { 
     isPlaying,
-    results,
     hz,
-    currentStepIndex: stepIndex,
-    currentSetIndex: setIndex
+    volume
   } = current;
 
-  const volume = results[setIndex] && results[setIndex][stepIndex] || 0;
+  if (changed.isPlaying) {
+    isPlaying
+      ? soundController.playFrequency(hz)
+      : soundController.stop();
+  }
+  if (changed.hz && isPlaying) {
+    soundController.playFrequency(hz);
+  }
 
-  isPlaying
-    ? soundController.playFrequency(hz)
-    : soundController.stop();
-
-  soundController.setVolume(volume);
+  if (changed.volume) {
+    soundController.setVolume(volume);
+  }
 });
 
 export default app;

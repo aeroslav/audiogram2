@@ -1,7 +1,7 @@
 <div class="steps columns">
-  {#if $results[$currentSetIndex]}
+  {#if $results[$setI]}
     {#each $steps as step, stepIndex}
-      {#if $isPlaying && $currentStepIndex === stepIndex}
+      {#if $isPlaying && $stepI === stepIndex}
         <Step step={step} {stepIndex} isPlaying />
       {:else}
         <Step step={step} {stepIndex} />
