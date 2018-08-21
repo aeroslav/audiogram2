@@ -22,7 +22,16 @@ export default {
       assets: [
         './src/fonts',
         'src/index.html',
-        'src/frequencies-sets.json'
+        'src/frequencies-sets.json',
+        'src/favicon.ico',
+        'src/android-chrome-192x192.png',
+        'src/android-chrome-256x256.png',
+        'src/favicon-16x16.png',
+        'src/favicon-32x32.png',
+        'src/mstile-150x150.png',
+        'src/safari-pinned-tab.svg',
+        'src/site.webmanifest',
+        'src/browserconfig.xml',
       ]
     }),
     htmlTemplate({
