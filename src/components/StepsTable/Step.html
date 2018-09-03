@@ -1,33 +1,30 @@
-<div class="step-table-row column col-12 py-1">
-  <div class="container">
-    <div class="columns">
-      <div class="column col-1">
-          <button
-            class="btn btn-action btn-link"
-            on:click="$playFrequency(stepIndex)"
-          >
-            {#if isPlaying}
-              <i class="icon icon-pause_circle_outline"></i>
-            {:else}
-              <i class="icon icon-play_circle_outline"></i>
-            {/if}
-          </button>
-      </div>
-      <div class="column col-2">
-        <div class="frequency d-inline-block text-bold">{step} Hz</div>
-      </div>
-      <div class="column col-8">
-          <input
-            class="slider mt-1"
-            type="range"
-            min="1" max="100" step="1" value="{$results[$setI][stepIndex]}"
-            on:input="$setVolume(this.value)"
-            disabled={!isPlaying}
-          >
-      </div>
-      <div class="column col-1 text-right">{$results[$setI][stepIndex]}</div>
-    </div>
+<div class="step-table-row columns py-1">
+  <div class="frequency column col-2">
+    <button
+      class="btn btn-action btn-link mr-2"
+      on:click="$playFrequency(stepIndex)"
+    >
+      {#if isPlaying}
+        <i class="icon icon-pause"></i>
+      {:else}
+        <i class="icon icon-play_arrow"></i>
+      {/if}
+    </button>
+    <span class="mr-2 text-bold">{step} Hz</span>
+    <span class="step-status text-success">
+      <i class="icon icon-music_note"></i>
+    </span>
   </div>
+  <div class="column col-9">
+      <input
+        class="slider mt-1"
+        type="range"
+        min="1" max="100" step="1" value="{$results[$setI][stepIndex]}"
+        on:input="$setVolume(this.value)"
+        disabled={!isPlaying}
+      >
+  </div>
+  <div class="column col-1 text-right">{$results[$setI][stepIndex]}%</div>
 </div>
 
 <style>
@@ -36,8 +33,5 @@
   }
   .step-table-row button {
     font-size: 1rem;
-  }
-  .frequency {
-    margin-left: 1rem;
   }
 </style>

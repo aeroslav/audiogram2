@@ -1,26 +1,58 @@
-<div class="controls container">
+<div class="controls form-horizontal">
   <div class="columns">
-    <div class="column col-1">
-      <button class="btn btn-action" on:click="$playFrequency()">
-        <i class="icon icon-play_circle_outline"></i>
-      </button>
+    <div class="column col-3">
+      <select
+        class="sets-select form-select"
+        name="selected-set"
+        on:change="$chooseSet(+this.value)"
+      >
+        <option value="-1" disabled selected>Выберите набор частот</option>
+        {#each $loadedSets as set, i}
+          <option value="{i}">{set.name}</option>
+        {/each}
+      </select>
     </div>
-    <div class="column col-1">
-      <button class="btn btn-action">
+
+    <div class="column col-2">
+      <button
+        class="btn btn-action text-large mr-2"
+        disabled={ $setI === null }
+        on:click="$playFrequency($stepI)"
+      >
+          {#if $isPlaying}
+            <i class="icon icon-pause"></i>
+          {:else}
+            <i class="icon icon-play_arrow"></i>
+          {/if}
+      </button>
+      <button
+        class="btn btn-action text-large mr-2"
+        disabled={ $stepI === null || $stepI === 0 }
+        on:click="$playFrequency($stepI-1)"
+      >
         <i class="icon icon-skip_previous"></i>
       </button>
-    </div>
-    <div class="column col-1">
-      <button class="btn btn-action">
+      <button
+        class="btn btn-action text-large mr-2"
+        disabled={ $stepI === null || $stepI === $steps.length-1 }
+        on:click="$playFrequency($stepI+1)"
+      >
         <i class="icon icon-skip_next"></i>
       </button>
     </div>
-    <div class="column col-2">
-      <select class="form-select" name="" id="">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-      </select>
+
+    <div class="column col-2 col-ml-auto text-right">
+      <button class="btn">
+        <i class="icon icon-picture_as_pdf"></i>
+        <span>Экспорт</span>
+      </button>
     </div>
   </div>
 </div>
+
+<style>
+.controls {
+  flex: 0 0 auto;
+  margin-bottom: .5rem;
+}
+</style>

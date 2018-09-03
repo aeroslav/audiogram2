@@ -1,16 +1,24 @@
-<div class="steps columns">
-  {#if $results[$setI]}
-    {#each $steps as step, stepIndex}
-      {#if $isPlaying && $stepI === stepIndex}
-        <Step step={step} {stepIndex} isPlaying />
-      {:else}
-        <Step step={step} {stepIndex} />
-      {/if}
+<div class="steps">
+  <div class="container">
+    {#if $results[$setI]}
+      {#each $steps as step, stepIndex}
+        {#if $isPlaying && $stepI === stepIndex}
+          <Step step={step} {stepIndex} isPlaying={true} />
+        {:else}
+          <Step step={step} {stepIndex} isPlaying={false} />
+        {/if}
+      {/each}
     {:else}
-    <span>No data</span>
-    {/each}
-  {/if}
+      <span>No data</span>
+    {/if}
+  </div>
 </div>
+
+<style>
+.steps {
+  overflow-y: auto;
+}
+</style>
 
 <script>
   import Step from './Step.html';

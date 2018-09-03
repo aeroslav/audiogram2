@@ -74,19 +74,29 @@ export class Model extends Store {
 
   chooseSet(index) {
     const { loadedSets, results } = this.get();
-    const chosenStep = loadedSets[index];
-    if (chosenStep && chosenStep.frequencies) {
-      this.set({
-        setI: index
-      });
+    let newState = {};
+    if (isNumber(index) && index > -1) {
+      const chosenStep = loadedSets[index];
+      newState = {
+        setI: index,
+        stepI: null
+      };
       if (!results[index]) {
-        this.set({
+        newState = {
+          ...newState,
           results: {
+            ...results,
             [index]: new Array(chosenStep.frequencies.length).fill(DEFAULT_VOLUME)
           }
-        });
+        };
+      }
+    } else {
+      newState = {
+        setI: null,
+        stepI: null
       }
     }
+    this.set(newState);
   }
 
   playFrequency(stepIndex) {
@@ -96,7 +106,7 @@ export class Model extends Store {
       : true);
     this.set({
       isPlaying: isNowPlaying,
-      stepI: stepIndex
+      stepI: stepIndex || 0
     });
   }
 
@@ -106,7 +116,7 @@ export class Model extends Store {
     const updatedVolumes = [].concat(volumes);
 
     vol = +vol;
-    updatedVolumes.splice(stepI, 1, vol);
+    updatedVolumes[stepI] = vol;
 
     isNumber(vol) && this.set({
       results: {

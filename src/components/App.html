@@ -1,20 +1,24 @@
-<div class="container grid-xl">
-  
-  <main>
-    <Header />
-    <Controls />
-    <StepsTable />
-    <Help />
-    <Export />
-  </main>
-</div>
+<Header />
+<main class="container grid-xl">
+  <Controls />
+  <StepsTable />
+  <Help />
+</main>
+
+<style>
+main {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding-top: calc(var(--header-height) + 1rem);
+}
+</style>
 
 <script>
   import Header from './Header/Header.html';
   import Controls from './Controls/Controls.html';
   import StepsTable from './StepsTable/StepsTable.html';
   import Help from './Help/Help.html';
-  import Export from './Export/Export.html';
 
   export default {
     oncreate() {
@@ -28,8 +32,7 @@
       Header,
       Controls,
       StepsTable,
-      Help,
-      Export
+      Help
     }
   }
 </script>
