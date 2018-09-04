@@ -1,0 +1,22 @@
+<div class="modal {$modals.export ? 'active' : ''}">
+  <div
+    class="modal-overlay"
+    on:click="$toggleModal('export', false)"
+  ></div>
+  <div class="modal-container">
+    <div class="modal-header">
+      <span class="h4">Экспорт</span>
+      <span
+        class="btn btn-link float-right"
+        on:click="$toggleModal('export', false)">X</span>
+    </div>
+    <div class="modal-body">
+      <div class="columns">
+        <div class="column col-12">
+          1
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer"></div>
+  </div>
+</div>

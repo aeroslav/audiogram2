@@ -42,7 +42,10 @@
     </div>
 
     <div class="column col-2 col-ml-auto text-right">
-      <button class="btn">
+      <button
+        class="btn"
+        on:click="prepareExport()"
+      >
         <i class="icon icon-picture_as_pdf"></i>
         <span>Экспорт</span>
       </button>
@@ -56,3 +59,13 @@
   margin-bottom: .5rem;
 }
 </style>
+
+<script>
+  export default {
+    methods: {
+      prepareExport() {
+        this.store.toggleModal('export', true);
+      }
+    }
+  }
+</script>

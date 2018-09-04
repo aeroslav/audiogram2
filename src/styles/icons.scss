@@ -1,9 +1,9 @@
 @font-face {
   font-family: 'icomoon';
   src:
-    url('fonts/icomoon.ttf?93eizd') format('truetype'),
-    url('fonts/icomoon.woff?93eizd') format('woff'),
-    url('fonts/icomoon.svg?93eizd#icomoon') format('svg');
+    url('fonts/icomoon.ttf?iias0d') format('truetype'),
+    url('fonts/icomoon.woff?iias0d') format('woff'),
+    url('fonts/icomoon.svg?iias0d#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -67,4 +67,7 @@
 }
 .icon-volume_up:before {
   content: "\e050";
+}
+.icon-github:before {
+  content: "\e900";
 }

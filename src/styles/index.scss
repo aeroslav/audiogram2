@@ -9,6 +9,7 @@
   --f-regular: 'Montserrat', sans-serif; //can be regular, regular italic, bold
   //sizes
   --header-height: 2.5rem;
+  --footer-height: 1.2rem;
   //colors
   --primary-color: #{$primary-color};
   --secondary-color: #{$secondary-color};
@@ -55,6 +56,11 @@ body {
   font-family: var(--f-regular);
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4,
+h5, .h5,
+h6, .h6 {
   font-family: var(--f-caption);
 }

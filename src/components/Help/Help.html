@@ -1,1 +1,27 @@
-<div>help modal</div>
+<div class="modal {$modals.help ? 'active' : ''}">
+  <div
+    class="modal-overlay"
+    on:click="$toggleModal('help', false)"
+  ></div>
+  <div class="modal-container">
+    <div class="modal-header">
+      <span class="h4">Что делать?</span>
+      <span
+        class="btn btn-link float-right"
+        on:click="$toggleModal('help', false)">X</span>
+    </div>
+    <div class="modal-body">
+      <div class="columns">
+        <div class="column col-12">
+          1
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column col-12">
+          2
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer"></div>
+  </div>
+</div>

@@ -3,15 +3,18 @@
   <Controls />
   <StepsTable />
   <Help />
+  <Export />
 </main>
+<Footer />
 
 <style>
-main {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  padding-top: calc(var(--header-height) + 1rem);
-}
+  main {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding-top: calc(var(--header-height) + 1rem);
+    padding-bottom: calc(var(--footer-height) + .5rem);
+  }
 </style>
 
 <script>
@@ -19,20 +22,31 @@ main {
   import Controls from './Controls/Controls.html';
   import StepsTable from './StepsTable/StepsTable.html';
   import Help from './Help/Help.html';
+  import Export from './Export/Export.html';
+  import Footer from './Footer/Footer.html';
+  import { FREQUENCIES_SETS_URL } from '../scripts/constants';
 
   export default {
     oncreate() {
-      this.store
-        .loadSets()
-        .then(() => {
+      fetch(FREQUENCIES_SETS_URL)
+        .then(response => {
+          return response.json()
+        })
+        .then(json => {
+          this.store.set({ loadedSets: json });
           this.store.chooseSet(0);
+        })
+        .catch(err => {
+          console.log(err);
         });
     },
     components: {
       Header,
+      Footer,
       Controls,
       StepsTable,
-      Help
+      Help,
+      Export
     }
   }
 </script>

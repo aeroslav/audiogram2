@@ -1,14 +1,17 @@
 import isNumber from 'lodash/isNumber';
 import { Store } from "svelte/store.js";
+import { FREQUENCIES_SETS_URL } from '../scripts/constants';
 
-const FREQUENCIES_SETS_URL = 'frequencies-sets.json';
-const DEFAULT_VOLUME = 10;
 const INITITAL_STATE = {
   loadedSets: [],
   setI: null,
   stepI: null,
   isPlaying: false,
-  results: {}
+  results: {},
+  modals: {
+    help: false,
+    export: false
+  }
 };
 
 export class Model extends Store {
@@ -59,19 +62,6 @@ export class Model extends Store {
     );
   }
 
-  loadSets() {
-    return fetch(FREQUENCIES_SETS_URL)
-      .then(response => {
-        return response.json()
-      })
-      .then(json => {
-        this.set({loadedSets: json})
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
-
   chooseSet(index) {
     const { loadedSets, results } = this.get();
     let newState = {};
@@ -86,7 +76,7 @@ export class Model extends Store {
           ...newState,
           results: {
             ...results,
-            [index]: new Array(chosenStep.frequencies.length).fill(DEFAULT_VOLUME)
+            [index]: new Array(chosenStep.frequencies.length).fill(null)
           }
         };
       }
@@ -121,6 +111,20 @@ export class Model extends Store {
     isNumber(vol) && this.set({
       results: {
         [setI]: updatedVolumes
+      }
+    });
+  }
+
+  toggleModal(name, state) {
+    if (!name) { console.warn('Specify modal name'); return; }
+    const { modals } = this.get();
+    const newState = typeof state === 'boolean'
+      ? state
+      : !modals[name];
+    this.set({
+      modals: {
+        ...modals,
+        [name]: newState
       }
     });
   }

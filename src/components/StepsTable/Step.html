@@ -2,7 +2,7 @@
   <div class="frequency column col-2">
     <button
       class="btn btn-action btn-link mr-2"
-      on:click="$playFrequency(stepIndex)"
+      on:click="onPlay()"
     >
       {#if isPlaying}
         <i class="icon icon-pause"></i>
@@ -11,20 +11,18 @@
       {/if}
     </button>
     <span class="mr-2 text-bold">{step} Hz</span>
-    <span class="step-status text-success">
-      <i class="icon icon-music_note"></i>
-    </span>
+    <i class="step-status icon {stepStateClass}"></i>
   </div>
   <div class="column col-9">
       <input
         class="slider mt-1"
         type="range"
-        min="1" max="100" step="1" value="{$results[$setI][stepIndex]}"
+        min="1" max="100" step="1" value="{volume}"
         on:input="$setVolume(this.value)"
         disabled={!isPlaying}
       >
   </div>
-  <div class="column col-1 text-right">{$results[$setI][stepIndex]}%</div>
+  <div class="column col-1 text-right">{volume}%</div>
 </div>
 
 <style>
@@ -34,4 +32,35 @@
   .step-table-row button {
     font-size: 1rem;
   }
+  .step-status {
+    float: right;
+    margin-top: .4rem;
+  }
 </style>
+
+<script>
+  import { DEFAULT_VOLUME } from '../../scripts/constants';
+  import isNumber from 'lodash/isNumber';
+
+  export default {
+    methods: {
+      onPlay() {
+        const { stepIndex, volume } = this.get();
+        this.store.playFrequency(stepIndex);
+        this.store.setVolume(volume);
+      }
+    },
+    computed: {
+      volume: ({$results, $setI, stepIndex}) => ($results[$setI][stepIndex] || DEFAULT_VOLUME),
+      stepStateClass: ({$results, $setI, isPlaying, stepIndex}) => {
+        const curResult = $results[$setI][stepIndex];
+        if (isNumber(curResult)) {
+          return (isPlaying
+            ? 'icon-music_note text-warning'
+            : 'icon-done text-success');
+        }
+        return '';
+      }
+    }
+  }
+</script>

@@ -4,7 +4,10 @@
       <span class="logo text-uppercase text-primary text-large">Аудиограмма</span>
     </div>
     <div class="navbar-section">
-      <button class="btn ml-2">
+      <button
+        class="btn ml-2"
+        on:click="$toggleModal('help', true)"
+      >
         <i class="icon icon-help_outline"></i>
         <span>Помощь</span>
       </button>
