@@ -1,0 +1,17 @@
+<div class="columns">
+  <div class="column col-2">{hz} Hz</div>
+  <div class="column col-2">{vol}%</div>
+  <div class="column col-8">
+    <div class="bar">
+      <div class="bar-item" style="width: {vol}%"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  @media print {
+    .bar-item {
+      -webkit-print-color-adjust: exact;
+    }
+  }
+</style>
