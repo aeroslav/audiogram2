@@ -11,20 +11,19 @@
         on:click="$toggleModal('export', false)">X</span>
     </div>
     <div id="report" class="modal-body">
-      {#if isReportReady}
+      {#if isReportReady && completedSteps.length}
         <span class="h5">Аудиограмма пройдена: {ts}</span>
         <div class="columns report-head">
           <div class="column col-2 text-italic">Частота</div>
           <div class="column col-2 text-italic">Громкость</div>
         </div>
 
-        {#each $results[$setI] as vol, i}
-          {#if vol !== null}
-            <ExportRow hz={$steps[i]} vol={vol} />
-          {/if}
-        {:else}
-          Нет данных для отчета
+        
+        {#each completedSteps as vol, i}
+          <ExportRow hz={$steps[i]} vol={vol} />
         {/each}
+      {:else}
+        Нет данных для отчета
       {/if}
     </div>
     <div class="modal-footer">
@@ -60,8 +59,17 @@
 </style>
 
 <script>
-  import moment from 'moment';
   import ExportRow from './ExportRow.html';
+
+  const getTimestamp = () => {
+    const now = new Date();
+    const HH = now.getHours();
+    const mm = now.getMinutes();
+    const DD = now.getDate();
+    const MM = now.getMonth() + 1;
+    const YYYY = now.getFullYear();
+    return `${HH}:${mm}, ${DD}.${MM}.${YYYY}`;
+  }
 
   export default {
     components: {
@@ -72,7 +80,13 @@
     },
     computed: {
       isReportReady: ({$modals}) => ($modals.export),
-      ts: ({isReportReady}) => (isReportReady ? moment().format('HH:mm, DD.MM.YYYY') : '-')
+      ts: ({isReportReady}) => (isReportReady ? getTimestamp() : '-'),
+      completedSteps: ({$results, $setI}) => {
+        return ($results && $results[$setI]
+          ? $results[$setI].filter((vol) => (vol !== null))
+          : []
+        );
+      }
     }
   }
 </script>
