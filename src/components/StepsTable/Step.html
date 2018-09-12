@@ -2,7 +2,7 @@
   <div class="frequency column col-2">
     <button
       class="btn btn-action btn-link mr-2"
-      on:click="onPlay()"
+      on:click="$playFrequency(stepIndex)"
     >
       {#if isPlaying}
         <i class="icon icon-pause"></i>
@@ -43,13 +43,6 @@
   import isNumber from 'lodash/isNumber';
 
   export default {
-    methods: {
-      onPlay() {
-        const { stepIndex, volume } = this.get();
-        this.store.playFrequency(stepIndex);
-        this.store.setVolume(volume);
-      }
-    },
     computed: {
       volume: ({$results, $setI, stepIndex}) => ($results[$setI][stepIndex] || DEFAULT_VOLUME),
       stepStateClass: ({$results, $setI, isPlaying, stepIndex}) => {

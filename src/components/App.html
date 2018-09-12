@@ -40,7 +40,6 @@
         })
         .then(json => {
           this.store.set({ loadedSets: json });
-          this.store.chooseSet(0);
         })
         .catch(err => {
           console.log(err);

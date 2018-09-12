@@ -64,6 +64,7 @@
   export default {
     methods: {
       prepareExport() {
+        this.store.set({ isPlaying: false });
         this.store.toggleModal('export', true);
       }
     }

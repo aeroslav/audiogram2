@@ -1,6 +1,6 @@
 import isNumber from 'lodash/isNumber';
 import { Store } from "svelte/store.js";
-import { FREQUENCIES_SETS_URL } from '../scripts/constants';
+import { DEFAULT_VOLUME } from '../scripts/constants';
 
 const INITITAL_STATE = {
   loadedSets: [],
@@ -89,15 +89,14 @@ export class Model extends Store {
     this.set(newState);
   }
 
-  playFrequency(stepIndex) {
-    const {stepI, isPlaying} = this.get();
+  playFrequency(stepIndex, vol) {
+    const {stepI, isPlaying, results, setI} = this.get();
     const isNowPlaying = (stepI === stepIndex
       ? !isPlaying
       : true);
-    this.set({
-      isPlaying: isNowPlaying,
-      stepI: stepIndex || 0
-    });
+    this.set({ stepI: stepIndex || 0 });
+    this.setVolume(vol || results[setI][stepIndex] || DEFAULT_VOLUME);
+    this.set({ isPlaying: isNowPlaying });
   }
 
   setVolume(vol) {
